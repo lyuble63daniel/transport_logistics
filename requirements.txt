@@ -32,4 +32,5 @@ urllib3
 wcwidth
 gunicorn
 psycopg2-binary
+reportlab
 

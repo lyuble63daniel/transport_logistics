@@ -7,7 +7,47 @@ from django.contrib import messages
 from .models import Parcel
 import time
 from shipping_cost_calculator import ShippingCostCalculator # import library
+from reportlab.pdfgen import canvas
+from io import BytesIO
+import boto3
+from django.conf import settings
 
+
+
+###############################
+def generate_parcel_pdf(parcel):
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer)
+    
+    pdf.drawString(100, 800, "Parcel Details")
+    pdf.drawString(100, 780, f"Tracking ID: {parcel.tracking_id}")
+    pdf.drawString(100, 760, f"Sender: {parcel.sender_name}")
+    pdf.drawString(100, 740, f"Receiver: {parcel.receiver_name}")
+    pdf.drawString(100, 720, f"Origin: {parcel.origin}")
+    pdf.drawString(100, 700, f"Destination: {parcel.destination}")
+    pdf.drawString(100, 680, f"Status: {parcel.status}")
+    
+    if parcel.transport_record:
+        pdf.drawString(100, 660, "Assigned Vehicle:")
+        pdf.drawString(120, 640, f"Vehicle ID: {parcel.transport_record.vehicle_id}")
+        pdf.drawString(120, 620, f"Destination: {parcel.transport_record.destination}")
+        pdf.drawString(120, 600, f"Driver Name: {parcel.transport_record.driver_name}")
+    
+    pdf.save()
+    buffer.seek(0)
+    return buffer
+
+
+def upload_to_s3(file_obj, file_name):
+    s3_client = boto3.client('s3')
+    bucket_name = "transport-logistics-documents"
+    try:
+        s3_client.put_object(Bucket=bucket_name, Key=file_name, Body=file_obj)
+        file_url = f"https://{bucket_name}.s3.amazonaws.com/{file_name}"
+        return file_url
+    except Exception as e:
+        print(f"Error uploading to S3: {e}")
+        return None
 
 # library use
 def calculate_shipping_view(request):
@@ -333,6 +373,8 @@ def create_parcel(request):
                 messages.error(request, "Invalid transport record selected.")
                 return redirect('create_parcel')
 
+
+
         # Create the parcel
         parcel = Parcel.objects.create(
             user=request.user,  # Associate parcel with the logged-in user
@@ -348,6 +390,17 @@ def create_parcel(request):
             transport_record=transport_record,  # Link the transport record
         )
         tracking_url = f"{signup_link}public/track/"
+
+                # Generate PDF and upload to S3
+        pdf_buffer = generate_parcel_pdf(parcel)
+        file_name = f"parcels/{parcel.tracking_id}.pdf"
+        file_url = upload_to_s3(pdf_buffer, file_name)
+
+        if file_url:
+            messages.success(request, f"Parcel created successfully! Document available: {file_url}")
+        else:
+            messages.error(request, "Parcel created, but document upload failed.")
+            
         # Prepare notification details
         message = f"""
 Parcel Details:
@@ -590,3 +643,4 @@ def public_track_parcel(request):
 
 def user_home(request):
     return render(request, 'user_home.html')
+
