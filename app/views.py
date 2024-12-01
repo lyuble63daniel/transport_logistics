@@ -385,9 +385,9 @@ To track the parcel, go to the following URL: {tracking_url}
         sns_client = boto3.client(
             'sns',
             region_name=settings.AWS_REGION,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            aws_session_token=settings.AWS_SESSION_TOKEN
+            # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            # aws_session_token=settings.AWS_SESSION_TOKEN
         )
         topic_arn = settings.AWS_SNS_TOPIC_ARN
 
@@ -529,9 +529,9 @@ def update_parcel(request, tracking_id):
         sns_client = boto3.client(
             'sns',
             region_name=settings.AWS_REGION,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            aws_session_token=settings.AWS_SESSION_TOKEN
+            # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            # aws_session_token=settings.AWS_SESSION_TOKEN
         )
         topic_arn = settings.AWS_SNS_TOPIC_ARN
 
@@ -546,7 +546,7 @@ def update_parcel(request, tracking_id):
         except Exception as e:
             messages.error(request, f"Error sending notifications: {str(e)}")
             return redirect('list_parcels')
-
+        return redirect('list_parcels')
         
 
 
