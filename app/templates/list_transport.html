@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View All Transport Records</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Full-page background animation */
+        @keyframes subtleGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        body {
+            background: linear-gradient(135deg, #3b82f6, #34d399, #fbbf24, #1e3a8a);
+            background-size: 200% 200%;
+            animation: subtleGradient 12s infinite ease-in-out;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Row hover animation */
+        tbody tr {
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        tbody tr:hover {
+            background-color: #dbeafe;
+            transform: scale(1.02);
+        }
+
+        /* Button hover effects */
+        a {
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        a:hover {
+            transform: scale(1.1);
+        }
+
+        /* Center Content */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 shadow-lg fixed top-0 w-full z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide">Transport Records</h1>
+            <a href="{% url 'dashboard' %}" class="bg-gray-500 px-4 py-2 rounded-full shadow-md hover:bg-gray-600 transition-all">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper fade-in pt-24">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-6xl">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">All Transport Records</h2>
+
+            Display Success or Error Messages
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <p class="bg-green-100 text-green-800 p-3 rounded-lg shadow">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Records Table -->
+            <table class="table-auto w-full border-collapse rounded-lg overflow-hidden shadow-lg">
+                <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
+                    <tr>
+                        <th class="border px-4 py-2 text-left font-medium text-gray-800">Vehicle ID</th>
+                        <th class="border px-4 py-2 text-left font-medium text-gray-800">Driver Name</th>
+                        <th class="border px-4 py-2 text-left font-medium text-gray-800">Departure</th>
+                        <th class="border px-4 py-2 text-left font-medium text-gray-800">Arrival</th>
+                        <th class="border px-4 py-2 text-left font-medium text-gray-800">Destination</th>
+                        <th class="border px-4 py-2 text-center font-medium text-gray-800">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for record in records %}
+                    <tr class="hover:bg-blue-50">
+                        <td class="border px-4 py-2">{{ record.vehicle_id }}</td>
+                        <td class="border px-4 py-2">{{ record.driver_name }}</td>
+                        <td class="border px-4 py-2">{{ record.departure_date }}</td>
+                        <td class="border px-4 py-2">{{ record.arrival_date }}</td>
+                        <td class="border px-4 py-2">{{ record.destination }}</td>
+                        <td class="border px-4 py-2 text-center">
+                            <a href="{% url 'update_transport' record.id %}" 
+                               class="bg-yellow-500 text-white px-3 py-2 rounded-full shadow-md hover:bg-yellow-600 transition-all">
+                               Edit
+                            </a>
+                            <a href="{% url 'delete_transport' record.id %}" 
+                               class="bg-red-500 text-white px-3 py-2 rounded-full shadow-md hover:bg-red-600 transition-all">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if records|length == 0 %}
+                    <tr>
+                        <td colspan="6" class="text-center text-gray-500 py-6">No transport records found for your account.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg">
+        <p>© Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

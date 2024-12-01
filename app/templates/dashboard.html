@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Animation for moving circles */
+        @keyframes move {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            50% {
+                transform: translateY(-20px) translateX(-15px) scale(1.1);
+            }
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: move 7s infinite ease-in-out;
+        }
+
+        .circle1 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #34d399, #065f46);
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .circle3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #fbbf24, #b45309);
+            top: 40%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+
+        /* Subtle Background Gradient */
+        body {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(52, 211, 153, 0.8), rgba(251, 191, 36, 0.8));
+            background-size: 200% 200%;
+            animation: subtleBackground 12s infinite ease-in-out;
+        }
+
+        @keyframes subtleBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Navbar and Footer Styling */
+        nav, footer {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+            backdrop-filter: blur(10px);
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Hover Effects */
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Button Hover Effects */
+        .card a {
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        .card a:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-hidden text-white">
+    <!-- Animated Background -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">Wedze Transport & Logistics Dashboard</h1>
+            <div class="flex items-center">
+                <span class="mr-4 font-medium">Welcome, <strong>{{ user.username }}</strong></span>
+                <a href="{% url 'logout' %}" class="bg-red-500 px-3 py-2 rounded-md shadow hover:bg-red-600 transition-all">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto pt-20 pb-8 px-4 flex-grow z-10">
+        <!-- Heading -->
+        <div class="text-center mb-10 fade-in">
+            <h2 class="text-4xl font-extrabold mb-4 text-white">Streamline Your Logistics</h2>
+            <p class="text-base text-gray-200 max-w-2xl mx-auto">
+                A seamless dashboard for managing records, tracking parcels, and optimizing transport operations.
+            </p>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Add Transport Record -->
+            <div class="bg-gradient-to-br from-blue-100 to-blue-50 shadow-lg rounded-lg p-6 card">
+                <h3 class="text-lg font-bold mb-2 text-blue-700">Add Transport Record</h3>
+                <p class="text-gray-600 mb-4">Easily add a new transport record to manage logistics.</p>
+                <a href="{% url 'create_transport' %}" class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700">Create Record</a>
+            </div>
+
+            <!-- View Transport Records -->
+            <div class="bg-gradient-to-br from-green-100 to-green-50 shadow-lg rounded-lg p-7 card">
+                <h3 class="text-lg font-bold mb-2 text-green-700">View Transport Records</h3>
+                <p class="text-gray-600 mb-4">Check and manage all your transport records.</p>
+                <a href="{% url 'list_transport' %}" class="bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700">View Records</a>
+            </div>
+
+            <!-- Add Parcel -->
+            <div class="bg-gradient-to-br from-purple-100 to-purple-50 shadow-lg rounded-lg p-6 card">
+                <h3 class="text-lg font-bold mb-2 text-purple-700">Add Parcel</h3>
+                <p class="text-gray-600 mb-4">Create a parcel record for smooth tracking.</p>
+                <a href="{% url 'create_parcel' %}" class="bg-purple-600 text-white px-4 py-2 rounded-md shadow hover:bg-purple-700">Create Parcel</a>
+            </div>
+
+            <!-- Track Parcel -->
+            <div class="bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-lg rounded-lg p-6 card">
+                <h3 class="text-lg font-bold mb-2 text-yellow-700">Track Parcel</h3>
+                <p class="text-gray-600 mb-4">Track your parcel's journey in real-time.</p>
+                <a href="{% url 'track_parcel' %}" class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow hover:bg-yellow-600">Track Parcel</a>
+            </div>
+
+            <!-- View All Parcels -->
+            <div class="bg-gradient-to-br from-indigo-100 to-indigo-50 shadow-lg rounded-lg p-6 card">
+                <h3 class="text-lg font-bold mb-2 text-indigo-700">View All Parcels</h3>
+                <p class="text-gray-600 mb-4">Manage all your parcels in one place.</p>
+                <a href="{% url 'list_parcels' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700">View Parcels</a>
+            </div>
+            <div class="bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-lg rounded-lg p-6 card">
+                <h3 class="text-lg font-bold mb-2 text-yellow-700">Shipping Cost Calculator</h3>
+                <p class="text-gray-600 mb-4">Calculate the shipping cost based on weight and distance.</p>
+                <a href="{% url 'calculate_shipping' %}" class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow hover:bg-yellow-600">Calculate Cost</a>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-white shadow-md">
+        <p>© {{ user.username }} | Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

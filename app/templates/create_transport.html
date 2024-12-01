@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Transport Record</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide">Add Transport Record</h1>
+            <a href="{% url 'dashboard' %}" class="bg-gray-500 px-4 py-2 rounded-full shadow-md hover:bg-gray-600 transition-all">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 flex-grow">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Transport Record Details</h2>
+
+            <!-- Display Success Message -->
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <p class="bg-green-100 text-green-800 p-3 rounded-lg shadow">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Record Creation Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="vehicle_id" class="block text-lg font-medium text-gray-700">Vehicle ID</label>
+                    <input id="vehicle_id" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="vehicle_id" placeholder="Enter Vehicle ID" required>
+                </div>
+                <div>
+                    <label for="driver_name" class="block text-lg font-medium text-gray-700">Driver Name</label>
+                    <input id="driver_name" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="driver_name" placeholder="Enter Driver Name" required>
+                </div>
+                <div>
+                    <label for="departure_date" class="block text-lg font-medium text-gray-700">Departure Date</label>
+                    <input id="departure_date" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="date" name="departure_date" required>
+                </div>
+                <div>
+                    <label for="arrival_date" class="block text-lg font-medium text-gray-700">Arrival Date</label>
+                    <input id="arrival_date" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="date" name="arrival_date" required>
+                </div>
+                <div>
+                    <label for="cargo_description" class="block text-lg font-medium text-gray-700">Cargo Description</label>
+                    <textarea id="cargo_description" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" name="cargo_description" placeholder="Enter Cargo Description" rows="4" required></textarea>
+                </div>
+                <div>
+                    <label for="destination" class="block text-lg font-medium text-gray-700">Destination</label>
+                    <input id="destination" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="destination" placeholder="Enter Destination" required>
+                </div>
+                <div class="text-center">
+                    <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full shadow-md hover:from-blue-600 hover:to-blue-700 transition-all">Create Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="container mx-auto text-center mt-6">
+        <a href="{% url 'list_transport' %}" class="text-blue-500 underline hover:text-blue-700 transition-all">View All Records</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
+        <p>© Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

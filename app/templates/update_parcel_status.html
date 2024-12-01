@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Parcel Status</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Animation for floating squares */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(0) rotate(0);
+                opacity: 0.6;
+            }
+        }
+        .square {
+            position: absolute;
+            opacity: 0.6;
+            animation: float 6s infinite ease-in-out;
+        }
+        .square1 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+        .square2 {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #34d399, #065f46);
+            bottom: 20%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        .square3 {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fbbf24, #b45309);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-200 min-h-screen flex flex-col overflow-hidden">
+    <!-- Animated Background -->
+    <div class="square square1"></div>
+    <div class="square square2"></div>
+    <div class="square square3"></div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 flex-grow z-10">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto animate-fade-in">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Update Parcel Status</h2>
+
+            <!-- Update Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="status" class="block text-lg font-medium text-gray-700">Status</label>
+                    <select id="status" 
+                            name="status" 
+                            class="block w-full px-4 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300">
+                        <option value="Pending" {% if parcel.status == 'Pending' %}selected{% endif %}>Pending</option>
+                        <option value="Shipped" {% if parcel.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                        <option value="In Transit" {% if parcel.status == 'In Transit' %}selected{% endif %}>In Transit</option>
+                        <option value="Out for Delivery" {% if parcel.status == 'Out for Delivery' %}selected{% endif %}>Out for Delivery</option>
+                        <option value="Delivered" {% if parcel.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="transport_record" class="block text-lg font-medium text-gray-700">Assign to Vehicle</label>
+                    <select id="transport_record" 
+                            name="transport_record" 
+                            class="block w-full px-4 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300">
+                        <option value="">-- Select Vehicle --</option>
+                        {% for record in transport_records %}
+                        <option value="{{ record.id }}" {% if parcel.transport_record and parcel.transport_record.id == record.id %}selected{% endif %}>
+                            {{ record.vehicle_id }} (Destination: {{ record.destination }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                        Update Parcel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
+        <p>© Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

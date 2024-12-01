@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Wedze Transport & Logistics</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Full-screen background animation */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        body {
+            background: linear-gradient(135deg, #3b82f6, #34d399, #fbbf24, #1e3a8a);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s infinite ease-in-out;
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Dropdown menu styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.9);
+            max-height: 200px; /* Set max height for scrolling */
+            overflow-y: auto; /* Makes the list scrollable */
+            width: 300px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 1;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content span {
+            display: block;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .dropdown-content span:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-hidden text-white">
+    <!-- Navbar -->
+    <nav class="bg-opacity-50 bg-black p-4 fixed top-0 w-full shadow-lg z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-wide">Wedze Transport & Logistics</h1>
+            <div class="flex items-center space-x-4">
+                <!-- Prohibited List Dropdown -->
+                <div class="dropdown">
+                    <a href="#">Prohibited List</a>
+                    <div class="dropdown-content m-2 ">
+                        <span>1. GOLD</span>
+                        <span>2. SILVER</span>
+                        <span>3. PRECIOUS METAL</span>
+                        <span>4. PRECIOUS STONES</span>
+                        <span>5. CURRENCY AND COINS</span>
+                        <span>6. COPRA IN ANY FORM</span>
+                        <span>7. PETROLEUM BY PRODUCTS</span>
+                        <span>8. DHOOP STICKS AND AGARBHATTIS</span>
+                        <span>9. MATCH BOXES</span>
+                        <span>10. SANDAL WOOD OR POWDER</span>
+                        <span>11. BATTERIES</span>
+                        <span>12. KNIFES AND GUNS</span>
+                        <span>13. NARCOTIC SUBSTANCES</span>
+                        <span>14. NAIL POLISH</span>
+                        <span>15. CAMPHOR</span>
+                        <span>16. LEAFS</span>
+                        <span>17. SCISSORS</span>
+                        <span>18. DANGEROUS GOODS</span>
+                        <span>19. CARBON PAPERS</span>
+                        <span>20. FEVI KWIK AND FEVICOL</span>
+                        <span>21. PROHIBITED MEDICINES</span>
+                        <span>22. NARCOTIC DRUGS</span>
+                        <span>23. COOKING OILS</span>
+                        <span>24. OXIDASING AGENTS</span>
+                        <span>25. SEEDS</span>
+                        <span>26. ANIMAL AND PLANTS SAPLINGS</span>
+                        <span>27. PLAYING CARDS</span>
+                        <span>28. AEROSOL</span>
+                        <span>29. PARTY POPPER</span>
+                        <span>30. POWER BANK</span>
+                        <span>31. POPPY SEEDS</span>
+                    </div>
+                </div>
+                <!-- Accept List Dropdown -->
+                <div class="dropdown">
+                    <a href="">Accept List</a>
+                    <div class="dropdown-content m-2 ">
+                        <span>1. DOCUMENTS/CHEQUE BOOKS</span>
+                        <span>2. GIFT ITEMS</span>
+                        <span>3. MEDICINES/PHARMA SAMPLES</span>
+                        <span>4. COMMERCIALS</span>
+                        <span>5. FOOD ITEMS</span>
+                        <span>6. DRESSES</span>
+                        <span>7. KITCHEN ITEMS</span>
+                        <span>8. EXCESS BAGGAGE</span>
+                        <span>9. COSMETICS</span>
+                        <span>10. ID CARDS</span>
+                        <span>11. MOBILE PHONES/LAPTOPS/WATCHES</span>
+                        <span>12. CAMERAS</span>
+                        <span>13. ELECTRONIC ITEMS</span>
+                        <span>14. OPTICAL’S/SPECTACLES</span>
+                        <span>15. CONTACT LENSES</span>
+                        <span>16. SUN GLASSES</span>
+                        <span>17. WOODEN MANDIR</span>
+                        <span>18. GOD IDOLS</span>
+                        <span>19. PHOTO FRAMES</span>
+                        <span>20. MACHINERY SPARE PARTS</span>
+                        <span>21. PLASTIC ITEMS</span>
+                        <span>22. FANCY JEWELLERY</span>
+                        <span>23. SPORTS ITEMS</span>
+                        <span>24. DEBIT CARDS/CREDIT CARDS</span>
+                        <span>25. UTENSILS</span>
+                        <span>26. BOOKS</span>
+                        <span>27. CDS/ DVDS</span>
+                        <span>28. MEMORY CARDS/HARD DISCS/ PEN DRIVES</span>
+                        <span>29. TOYS</span>
+                        <span>30. METAL IDOLS</span>
+                    </div>
+                </div>
+                <a href="{% url 'contact_us' %}" class="bg-green-500 px-3 py-2 rounded-full shadow-md hover:bg-green-600 transition-all">Contact Us</a>
+
+                <a href="{% url 'login' %}" class="bg-blue-500 px-4 py-2 rounded-full shadow-md hover:bg-blue-600 transition-all">Login</a>
+                <a href="{% url 'signup' %}" class="bg-blue-500 px-4 py-2 rounded-full shadow-md hover:bg-blue-600 transition-all">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex items-center justify-center text-center px-6 z-10 fade-in">
+        <div>
+            <h2 class="text-5xl font-extrabold mb-6">Welcome to the Future of Logistics</h2>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                "Your trusted partner in seamless shipping and tracking. Explore efficient logistics solutions tailored to your needs."
+            </p>
+            <a href="/public/track/" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                Track Your Parcel
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-opacity-50 bg-black text-white text-center py-4 shadow-lg z-10">
+        <p>© Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

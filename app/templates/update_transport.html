@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Transport Record</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Animation for spinning hexagons */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.7;
+            }
+        }
+        .hexagon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: spin 8s infinite linear;
+        }
+        .hexagon1 {
+            top: 5vh;
+            left: 10vw;
+            animation-delay: 0s;
+            background: linear-gradient(135deg, #34d399, #065f46);
+        }
+        .hexagon2 {
+            top: 50vh;
+            left: 80vw;
+            animation-delay: 2s;
+            background: linear-gradient(135deg, #fbbf24, #b45309);
+        }
+        .hexagon3 {
+            bottom: 10vh;
+            left: 30vw;
+            animation-delay: 4s;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-200 min-h-screen flex flex-col overflow-hidden">
+    <!-- Animated Background -->
+    <div class="hexagon hexagon1"></div>
+    <div class="hexagon hexagon2"></div>
+    <div class="hexagon hexagon3"></div>
+
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide">Edit Transport Record</h1>
+            <a href="{% url 'list_transport' %}" class="bg-gray-500 px-4 py-2 rounded-full shadow-md hover:bg-gray-600 transition-all">Back to Records</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 flex-grow z-10">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto animate-fade-in">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Update Transport Record</h2>
+
+            <!-- Display Success or Error Messages -->
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <p class="bg-green-100 text-green-800 p-3 rounded-lg shadow">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Update Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="vehicle_id" class="block text-lg font-medium text-gray-700">Vehicle ID</label>
+                    <input id="vehicle_id" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                           type="text" name="vehicle_id" value="{{ record.vehicle_id }}" required>
+                </div>
+                <div>
+                    <label for="driver_name" class="block text-lg font-medium text-gray-700">Driver Name</label>
+                    <input id="driver_name" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                           type="text" name="driver_name" value="{{ record.driver_name }}" required>
+                </div>
+                <div>
+                    <label for="departure_date" class="block text-lg font-medium text-gray-700">Departure Date</label>
+                    <input id="departure_date" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                           type="date" name="departure_date" value="{{ record.departure_date }}" required>
+                </div>
+                <div>
+                    <label for="arrival_date" class="block text-lg font-medium text-gray-700">Arrival Date</label>
+                    <input id="arrival_date" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                           type="date" name="arrival_date" value="{{ record.arrival_date }}" required>
+                </div>
+                <div>
+                    <label for="cargo_description" class="block text-lg font-medium text-gray-700">Cargo Description</label>
+                    <textarea id="cargo_description" 
+                              class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                              name="cargo_description" required>{{ record.cargo_description }}</textarea>
+                </div>
+                <div>
+                    <label for="destination" class="block text-lg font-medium text-gray-700">Destination</label>
+                    <input id="destination" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
+                           type="text" name="destination" value="{{ record.destination }}" required>
+                </div>
+                <div class="text-center">
+                    <button class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                        Update Record
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
+        <p>© Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

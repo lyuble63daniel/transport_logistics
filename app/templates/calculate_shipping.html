@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate Shipping</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+    <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Calculate Shipping Cost</h2>
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            <p class="bg-green-100 text-green-800 p-3 rounded-lg">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                <input type="number" step="0.01" id="weight" name="weight" class="mt-1 block w-full p-2 border rounded-md" required>
+            </div>
+            <div class="mb-4">
+                <label for="distance" class="block text-sm font-medium text-gray-700">Distance (km)</label>
+                <input type="number" step="0.01" id="distance" name="distance" class="mt-1 block w-full p-2 border rounded-md" required>
+            </div>
+            <div class="mb-4">
+                <label for="priority" class="inline-flex items-center">
+                    <input type="checkbox" id="priority" name="priority" class="form-checkbox">
+                    <span class="ml-2">Priority Shipping</span>
+                </label>
+            </div>
+            <div class="mb-4">
+                <label for="fragile" class="inline-flex items-center">
+                    <input type="checkbox" id="fragile" name="fragile" class="form-checkbox">
+                    <span class="ml-2">Fragile Item</span>
+                </label>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+                Calculate
+            </button>
+        </form>
+    </div>
+</body>
+</html>

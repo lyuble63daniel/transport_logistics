@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Parcel</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide">Add a New Parcel</h1>
+            <a href="{% url 'dashboard' %}" class="bg-gray-500 px-4 py-2 rounded-full shadow-md hover:bg-gray-600 transition-all">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-8 flex-grow">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Parcel Details</h2>
+
+            <!-- Display Success Message -->
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <p class="bg-green-100 text-green-800 p-3 rounded-lg shadow">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="sender_name" class="block text-lg font-medium text-gray-700">Sender Name</label>
+                    <input id="sender_name" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="sender_name" placeholder="Enter Sender Name" required>
+                </div>
+                <div>
+                    <label for="receiver_name" class="block text-lg font-medium text-gray-700">Receiver Name</label>
+                    <input id="receiver_name" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="receiver_name" placeholder="Enter Receiver Name" required>
+                </div>
+                <div>
+                    <label for="sender_mobile" class="block text-lg font-medium text-gray-700">Sender Mobile Number</label>
+                    <input id="sender_mobile" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" 
+                           type="tel" name="sender_mobile" placeholder="Enter Sender Mobile Number" required>
+                </div>
+                <div>
+                    <label for="sender_email" class="block text-lg font-medium text-gray-700">Sender Email ID</label>
+                    <input id="sender_email" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" 
+                           type="email" name="sender_email" placeholder="Enter Sender Email ID" required>
+                </div>
+                <div>
+                    <label for="receiver_mobile" class="block text-lg font-medium text-gray-700">Receiver Mobile Number</label>
+                    <input id="receiver_mobile" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" 
+                           type="tel" name="receiver_mobile" placeholder="Enter Receiver Mobile Number" required>
+                </div>
+                <div>
+                    <label for="receiver_email" class="block text-lg font-medium text-gray-700">Receiver Email ID</label>
+                    <input id="receiver_email" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" 
+                           type="email" name="receiver_email" placeholder="Enter Receiver Email ID" required>
+                </div>
+                <div>
+                    <label for="origin" class="block text-lg font-medium text-gray-700">Origin</label>
+                    <input id="origin" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="origin" placeholder="Enter Origin" required>
+                </div>
+                <div>
+                    <label for="destination" class="block text-lg font-medium text-gray-700">Destination</label>
+                    <input id="destination" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="text" name="destination" placeholder="Enter Destination" required>
+                </div>
+                <div>
+                    <label for="weight" class="block text-lg font-medium text-gray-700">Weight (kg)</label>
+                    <input id="weight" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500" type="number" step="0.01" name="weight" placeholder="Enter Weight" required>
+                </div>
+                <div>
+                    <label for="transport_record" class="block text-lg font-medium text-gray-700">Assign to Vehicle</label>
+                    <select id="transport_record" name="transport_record" class="block w-full p-3 border rounded-lg shadow focus:outline-blue-500">
+                        <option value="">-- Select Vehicle --</option>
+                        {% for record in transport_records %}
+                        <option value="{{ record.id }}">{{ record.vehicle_id }} (Destination: {{ record.destination }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-full shadow-md hover:from-blue-600 hover:to-blue-700 transition-all">Create Parcel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
+        <p>© {{ user.username }} | Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>

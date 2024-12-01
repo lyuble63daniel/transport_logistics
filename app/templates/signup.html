@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        /* Animation for moving circles */
+        @keyframes move {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) translateX(-20px) scale(1.1);
+            }
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: move 8s infinite ease-in-out;
+        }
+        .circle1 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            top: 15%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        .circle2 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #34d399, #065f46);
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        .circle3 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #fbbf24, #b45309);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 5s;
+        }
+
+        /* Navbar and Footer Styling */
+        nav, footer {
+            background: linear-gradient(to right, #1e3a8a, #2563eb);
+            color: white;
+        }
+
+        /* Success Message Styling */
+        .success-message {
+            background-color: #d1fae5;
+            color: #047857;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+    </style>
+    <script>
+        // Redirect to login page after 1.5 seconds if there's a success message
+        function redirectToLogin() {
+            const successMessage = document.querySelector('.success-message');
+            if (successMessage) {
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    window.location.href = "{% url 'login' %}";
+                }, 1500); // 1.5 seconds delay
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-blue-200 min-h-screen flex flex-col overflow-hidden" onload="redirectToLogin()">
+    <!-- Animated Background -->
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">Wedze Transport & Logistics</h1>
+            <a href="/" class="px-4 py-2 bg-gray-100 text-blue-600 rounded-lg shadow-md hover:bg-white hover:text-blue-800 transition-all">
+                Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex justify-center items-center z-10 pt-20">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm animate-fade-in">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Create an Account</h2>
+
+            <!-- Success Message -->
+            {% if messages %}
+            <div class="success-message">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Sign-Up Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div class="relative">
+                    <input id="username" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
+                           type="text" name="username" placeholder=" " required>
+                    <label for="username" 
+                           class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
+                        Username
+                    </label>
+                </div>
+                <div class="relative">
+                    <input id="email" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
+                           type="email" name="email" placeholder=" " required>
+                    <label for="email" 
+                           class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
+                        Email
+                    </label>
+                </div>
+                <div class="relative">
+                    <input id="password" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
+                           type="password" name="password" placeholder=" " required>
+                    <label for="password" 
+                           class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
+                        Password
+                    </label>
+                </div>
+                <div class="relative">
+                    <input id="confirm_password" 
+                           class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
+                           type="password" name="confirm_password" placeholder=" " required>
+                    <label for="confirm_password" 
+                           class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
+                        Confirm Password
+                    </label>
+                </div>
+                <button class="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 rounded-lg shadow-md hover:from-blue-700 hover:to-blue-800 transition-all duration-300" 
+                        type="submit">
+                    Sign Up
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <p class="text-sm text-center mt-6">
+                Already have an account? 
+                <a href="{% url 'login' %}" class="text-blue-500 hover:text-blue-600 transition-all">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
+        <p>© Wedze Transport & Logistics Management System</p>
+    </footer>
+</body>
+</html>
