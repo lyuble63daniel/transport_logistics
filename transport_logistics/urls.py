@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),  #  include    app-specific urls
+    path('airline/', include('airline_transport.urls')),
 ]
 
 if settings.DEBUG:

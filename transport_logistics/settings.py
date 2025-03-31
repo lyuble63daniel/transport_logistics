@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',  # our main application 
+    'airline_transport',
 ]
 
 MIDDLEWARE = [
@@ -109,14 +110,28 @@ WSGI_APPLICATION = 'transport_logistics.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'transport_db',  # Replace with your DB name
+#         'USER': 'transport',         # Replace with your DB username
+#         'PASSWORD': 'transport123',  # Replace with your DB password
+#         'HOST': 'transportapprds.czfm41flyyhn.us-east-1.rds.amazonaws.com',  # Replace with the RDS endpoint
+#         'PORT': '5432',           # Default PostgreSQL port
+#     }
+# }
+
+
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'transport_db',  # Replace with your DB name
-        'USER': 'transport',         # Replace with your DB username
-        'PASSWORD': 'transport123',  # Replace with your DB password
-        'HOST': 'transportapprds.czfm41flyyhn.us-east-1.rds.amazonaws.com',  # Replace with the RDS endpoint
-        'PORT': '5432',           # Default PostgreSQL port
+        'NAME': 'transport_db',
+        'USER': 'SkillSharing',
+        'PASSWORD': 'Admin2612',
+        'HOST': 'database-3.chwlezgyi7rm.eu-west-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 

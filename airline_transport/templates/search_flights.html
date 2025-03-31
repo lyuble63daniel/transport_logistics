@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Flights</title>
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen text-white flex flex-col">
+
+<!-- ✅ Navbar -->
+<nav class="w-full bg-black bg-opacity-30 backdrop-blur-lg shadow-md p-4 fixed top-0 z-50">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold">🧭 Wedze Airline Import</h1>
+    <a href="{% url 'dashboard' %}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">← Back to Dashboard</a>
+  </div>
+</nav>
+
+<!-- ✅ Main Content -->
+<main class="flex-grow pt-24 pb-12 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-4xl font-extrabold mb-2">✈️ Search Airline Flights</h2>
+      <p class="text-gray-300">Search for available flights and import them into your system.</p>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="flex flex-col md:flex-row justify-center items-center gap-4 mb-10">
+      <input type="text" name="from" placeholder="From City" required
+             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
+      <input type="text" name="to" placeholder="To City" required
+             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
+      <button type="submit"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow transition-all">
+        🔍 Search
+      </button>
+    </form>
+
+    <!-- Flight Results -->
+    {% if flights %}
+      <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+        <table class="min-w-full text-sm text-left text-gray-700">
+          <thead class="bg-gray-200 uppercase text-gray-600 text-sm">
+            <tr>
+              <th class="px-6 py-3">Flight No</th>
+              <th class="px-6 py-3">Airline</th>
+              <th class="px-6 py-3">From</th>
+              <th class="px-6 py-3">To</th>
+              <th class="px-6 py-3">Departure</th>
+              <th class="px-6 py-3">Arrival</th>
+              <th class="px-6 py-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            {% for flight in flights %}
+             <tr class="border-b hover:bg-gray-100">
+                <td class="px-6 py-4 font-medium">{{ flight.flight_number }}</td>
+                <td class="px-6 py-4">{{ flight.airline }}</td>
+                <td class="px-6 py-4">{{ flight.origin }}</td>
+                <td class="px-6 py-4">{{ flight.destination }}</td>
+                <td class="px-6 py-4">{{ flight.departure_time }}</td>
+                <td class="px-6 py-4">{{ flight.arrival_time }}</td>
+                <td class="px-6 py-4 text-center">
+                  <button onclick="importFlight('{{ flight.id }}')"
+                          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow text-sm">
+                    Import
+                  </button>
+                {% with id_name="flight_data_"|add:forloop.counter|stringformat:"s" %}
+                  {{ flight|json_script:flight.id }}
+                {% endwith %}
+                  <!-- {{ flight|json_script:"flight_data_"|add:flight.id }} -->
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% elif request.GET.from %}
+      <div class="text-center text-gray-300 mt-6">🚫 No flights found for your search.</div>
+    {% endif %}
+  </div>
+</main>
+
+<!-- ✅ Footer -->
+<footer class="bg-black bg-opacity-30 backdrop-blur-lg text-center text-white text-sm py-4">
+  © {{ user.username }} | Wedze Airline Import Panel
+</footer>
+
+<!-- ✅ Toast Message -->
+<div id="success-message" class="fixed top-20 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hidden z-50">
+  ✅ Flight imported successfully!
+</div>
+
+<!-- ✅ Script -->
+<script>
+function importFlight(flightId) {
+  const scriptTag = document.getElementById(`${flightId}`);
+  if (!scriptTag) {
+    alert("⚠️ Flight data not found for import.");
+    return;
+  }
+
+  const raw = scriptTag.textContent;
+  const flight = JSON.parse(raw);
+
+  const csrfToken = '{{ csrf_token }}';
+
+  fetch("{% url 'import_flight' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRFToken": csrfToken,
+    },
+    body: new URLSearchParams({
+      flight_number: flight.flight_number,
+      origin: flight.origin,
+      destination: flight.destination,
+      departure_time: flight.departure_time,
+      arrival_time: flight.arrival_time,
+      airline: flight.airline,
+    }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === "success") {
+      showSuccessMessage();
+    } else {
+      alert("❌ Failed to import flight.");
+    }
+  })
+  .catch(error => {
+    console.error("Fetch error:", error);
+    alert("Something went wrong.");
+  });
+}
+
+function showSuccessMessage() {
+  const msg = document.getElementById("success-message");
+  msg.classList.remove("hidden");
+  msg.classList.add("flex");
+
+  setTimeout(() => {
+    msg.classList.add("hidden");
+    msg.classList.remove("flex");
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtualenv
+venv/
+env/
+ENV/
+.venv/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Secret files
+.env
+*.env
+
+# VS Code / IDEs
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Pytest / coverage
+htmlcov/
+.coverage
+.pytest_cache/
+
+# Migrations (optional: comment this if you want to version control them)
+*/migrations/*.pyc
+*/migrations/__pycache__/
+*/migrations/*.py
+!*/migrations/__init__.py
+
