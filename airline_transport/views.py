@@ -13,13 +13,20 @@ from django.shortcuts import render, redirect
 from .models import Flight
 from django.contrib import messages
 
+from airline_transport.utils.weather import get_weather
+
+
 def search_flights(request):
     flights = []
+    origin_weather = None  # ✅ Set default
+    destination_weather = None  # ✅ Set default
     if request.method == 'GET' and 'from' in request.GET and 'to' in request.GET:
         from_city = request.GET.get('from')
         to_city = request.GET.get('to')
         api_url = f"http://airlinebusbooking-backend-lb-1215843260.eu-west-1.elb.amazonaws.com/api/airline/search-combined/?from={from_city}&to={to_city}"
-
+        # Weather
+        origin_weather = get_weather(from_city)
+        destination_weather = get_weather(to_city)
         try:
             response = requests.get(api_url)
             if response.status_code == 200:
@@ -30,7 +37,11 @@ def search_flights(request):
         except Exception as e:
             messages.error(request, f"Error: {str(e)}")
 
-    return render(request, 'search_flights.html', {'flights': flights})
+    return render(request, 'search_flights.html', {
+        'flights': flights,
+        'origin_weather': origin_weather,
+        'destination_weather': destination_weather
+        })
 
 # @require_POST
 # def import_flight(request):

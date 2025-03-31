@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Bus Routes</title>
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen text-white flex flex-col">
+
+<!-- ✅ Navbar -->
+<nav class="w-full bg-black bg-opacity-30 backdrop-blur-lg shadow-md p-4 fixed top-0 z-50">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-xl font-bold">🚌 Wedze Bus Booking</h1>
+    <a href="{% url 'dashboard' %}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">← Back to Dashboard</a>
+  </div>
+</nav>
+
+<!-- ✅ Main Content -->
+<main class="flex-grow pt-24 pb-12 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-10">
+      <h2 class="text-4xl font-extrabold mb-2">🚌 Search Bus Routes</h2>
+      <p class="text-gray-300">Find buses between cities and book your seat instantly.</p>
+    </div>
+
+    <!-- Search Form -->
+    <form method="get" class="flex flex-col md:flex-row justify-center items-center gap-4 mb-10">
+      <input type="text" name="from" placeholder="From City" required
+             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
+      <input type="text" name="to" placeholder="To City" required
+             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
+      <button type="submit"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow transition-all">
+        🔍 Search
+      </button>
+    </form>
+
+    {% if messages %}
+      <ul class="text-center text-green-400 mb-6">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if routes %}
+      <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+        <table class="min-w-full text-sm text-left text-gray-700">
+          <thead class="bg-gray-200 uppercase text-gray-600 text-sm">
+            <tr>
+              <th class="px-6 py-3">Bus No</th>
+              <th class="px-6 py-3">From</th>
+              <th class="px-6 py-3">To</th>
+              <th class="px-6 py-3">Departure</th>
+              <th class="px-6 py-3">Arrival</th>
+              <th class="px-6 py-3">Fare (€)</th>
+              <th class="px-6 py-3 text-center">Book</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            {% for bus in routes %}
+              <tr class="border-b hover:bg-gray-100">
+                <td class="px-6 py-4 font-medium">{{ bus.bus_number }}</td>
+                <td class="px-6 py-4">{{ bus.origin }}</td>
+                <td class="px-6 py-4">{{ bus.destination }}</td>
+                <td class="px-6 py-4">{{ bus.departure_time }}</td>
+                <td class="px-6 py-4">{{ bus.arrival_time }}</td>
+                <td class="px-6 py-4">€{{ bus.fare }}</td>
+                <td class="px-6 py-4 text-center">
+                  <form method="post" action="{% url 'book_bus' %}" class="flex flex-col sm:flex-row gap-2 items-center justify-center">
+                    {% csrf_token %}
+                    <input type="hidden" name="route_id" value="{{ bus.id }}">
+                    <input type="text" name="passenger_name" placeholder="Name" required class="px-2 py-1 rounded border text-sm text-black">
+                    <input type="text" name="seat_number" placeholder="Seat" required class="px-2 py-1 rounded border text-sm text-black w-16">
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">Book</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% elif request.GET.from %}
+      <div class="text-center text-gray-300 mt-6">🚫 No routes found for your search.</div>
+    {% endif %}
+  </div>
+</main>
+
+<!-- ✅ Footer -->
+<footer class="bg-black bg-opacity-30 backdrop-blur-lg text-center text-white text-sm py-4">
+  © {{ user.username }} | Wedze Bus Transport System
+</footer>
+
+</body>
+</html>

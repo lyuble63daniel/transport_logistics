@@ -25,6 +25,22 @@
       <p class="text-gray-300">Search for available flights and import them into your system.</p>
     </div>
 
+    <!-- ✅ Weather Cards -->
+    {% if origin_weather and destination_weather %}
+    <div class="flex justify-center gap-10 mb-10 text-sm text-gray-200">
+      <div class="bg-black p-4 rounded-xl shadow text-center w-48">
+        <p class="text-sm font-bold mb-1">📍 {{ origin_weather.city }}</p>
+        <p class="text-lg">{{ origin_weather.temp }}°C, {{ origin_weather.condition }}</p>
+        <p class="italic text-xs">{{ origin_weather.description }}</p>
+      </div>
+      <div class="bg-black p-4 rounded-xl shadow text-center w-48">
+        <p class="text-sm font-bold mb-1">📍 {{ destination_weather.city }}</p>
+        <p class="text-lg">{{ destination_weather.temp }}°C, {{ destination_weather.condition }}</p>
+        <p class="italic text-xs">{{ destination_weather.description }}</p>
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Search Form -->
     <form method="get" class="flex flex-col md:flex-row justify-center items-center gap-4 mb-10">
       <input type="text" name="from" placeholder="From City" required
@@ -69,7 +85,6 @@
                 {% with id_name="flight_data_"|add:forloop.counter|stringformat:"s" %}
                   {{ flight|json_script:flight.id }}
                 {% endwith %}
-                  <!-- {{ flight|json_script:"flight_data_"|add:flight.id }} -->
                 </td>
               </tr>
             {% endfor %}

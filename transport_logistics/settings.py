@@ -74,6 +74,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',  # our main application 
     'airline_transport',
+    'bus_transport',  # ✅ Add this line
+
 ]
 
 MIDDLEWARE = [

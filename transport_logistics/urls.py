@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),  #  include    app-specific urls
     path('airline/', include('airline_transport.urls')),
+    path('bus/', include('bus_transport.urls')),
 ]
 
 if settings.DEBUG:
