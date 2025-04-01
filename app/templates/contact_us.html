@@ -1,158 +1,165 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Contact Us</title>
-    {% load static %}
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #3b82f6, #34d399, #fbbf24, #1e3a8a);
-            background-size: 400% 400%;
-            animation: gradientAnimation 10s infinite ease-in-out;
-        }
+  <title>Contact Us</title>
+  {% load static %}
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
+  <style>
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    body {
+      background: linear-gradient(135deg, #f9fafc, #ececec, #fafafa, #1e3a8a);
+      background-size: 400% 400%;
+      animation: gradientAnimation 15s ease-in-out infinite;
+    }
 
-        .form-container {
-            max-width: 600px;
-            margin: 100px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
+    .form-container {
+      max-width: 650px;
+      margin: 120px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+    .form-container label {
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: block;
+      color: #1e3a8a;
+    }
 
-        input, textarea {
-            width: 100%;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #f9fafb;
+      transition: border 0.3s ease;
+    }
 
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .form-container input:focus,
+    .form-container textarea:focus {
+      border-color: #3b82f6;
+      outline: none;
+      background-color: #fff;
+    }
 
-        button:hover {
-            background-color: #45a049;
-        }
+    .form-container button {
+      background-color: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        /* Success message styling */
-        .success-message {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            border: 1px solid #badbcc;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
+    .form-container button:hover {
+      background-color: #1e40af;
+    }
 
-        nav {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
+    .success-message {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-            padding: 8px 15px;
-            background-color: rgba(59, 130, 246, 0.8);
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+    /* Navbar */
+    nav {
+      background-color: white;
+      color: black;
+      padding: 16px 24px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .nav-links a:hover {
-            background-color: rgba(59, 130, 246, 1);
-        }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      background-color: #3b82f6;
+      padding: 8px 16px;
+      border-radius: 6px;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
 
-        footer {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            margin-top: auto;
-            width: 100%;
-        }
-    </style>
+    .nav-links a:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Footer */
+    footer {
+      background-color: white;
+      color: #4b5563;
+      padding: 16px;
+      text-align: center;
+      font-size: 14px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: auto;
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col text-gray-800">
-    <!-- Navbar -->
-    <nav>
-        <div>
-            <h1 class="text-xl font-bold tracking-wide">Wedze Transport & Logistics</h1>
-        </div>
-        <div class="nav-links">
-            <a href="{% url 'user_home' %}">Back to Home</a>
-        </div>
-    </nav>
+<body class="min-h-screen flex flex-col text-black">
 
-    <!-- Contact Us Form -->
-    <div class="form-container">
-        <h1 class="text-2xl font-bold mb-4">Contact Us</h1>
-        
-        <!-- Success Message -->
-        {% if messages %}
-        <div>
-            {% for message in messages %}
-            <div class="success-message">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        
-        <!-- Contact Form -->
-        <form method="POST">
-            {% csrf_token %}
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your Name" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Your Email" required>
-            
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-            
-            <button type="submit">Send Message</button>
-        </form>
+  <!-- ✅ Navbar -->
+  <nav>
+    <h1 class="text-xl font-bold tracking-wide">📬 Eireann Transport & Logistics</h1>
+    <div class="nav-links">
+      <a href="{% url 'user_home' %}">← Back to Home</a>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer>
-        <p>© Wedze Transport & Logistics Management System</p>
-    </footer>
+  <!-- ✅ Contact Form -->
+  <div class="form-container mt-10">
+    <h2 class="text-3xl font-bold text-center text-blue-700 mb-4">Contact Us</h2>
+
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+      <div class="success-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+
+      <div class="text-center">
+        <button type="submit">📤 Send Message</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ✅ Footer -->
+  <footer>
+    © 2025 Eireann Transport & Logistics | All rights reserved
+  </footer>
 </body>
 </html>

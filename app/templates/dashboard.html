@@ -1,210 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
-    {% load static %}
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
-    <style>
-        /* Animation for moving circles */
-        @keyframes move {
-            0% {
-                transform: translateY(0) translateX(0) scale(1);
-            }
-            50% {
-                transform: translateY(-20px) translateX(-15px) scale(1.1);
-            }
-            100% {
-                transform: translateY(0) translateX(0) scale(1);
-            }
-        }
+  <title>Dashboard</title>
+  {% load static %}
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
+  <style>
+    /* body {
+      background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(52,211,153,0.8), rgba(251,191,36,0.8));
+      background-size: 200% 200%;
+      animation: subtleBackground 15s ease-in-out infinite;
+    } */
 
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.2;
-            animation: move 7s infinite ease-in-out;
-        }
+    @keyframes subtleBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        .circle1 {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-            top: 15%;
-            left: 10%;
-            animation-delay: 0s;
-        }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.15;
+      animation: move 7s infinite ease-in-out;
+    }
 
-        .circle2 {
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #34d399, #065f46);
-            bottom: 20%;
-            right: 15%;
-            animation-delay: 2s;
-        }
+    @keyframes move {
+      0% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-20px) translateX(-15px) scale(1.1); }
+      100% { transform: translateY(0) translateX(0) scale(1); }
+    }
 
-        .circle3 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, #fbbf24, #b45309);
-            top: 40%;
-            left: 60%;
-            transform: translate(-50%, -50%);
-            animation-delay: 4s;
-        }
+    .circle1 { width: 250px; height: 250px; background: #3b82f6; top: 10%; left: 10%; }
+    .circle2 { width: 200px; height: 200px; background: #34d399; bottom: 15%; right: 15%; }
+    .circle3 { width: 150px; height: 150px; background: #fbbf24; top: 50%; left: 60%; }
 
-        /* Subtle Background Gradient */
-        body {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(52, 211, 153, 0.8), rgba(251, 191, 36, 0.8));
-            background-size: 200% 200%;
-            animation: subtleBackground 12s infinite ease-in-out;
-        }
+    .card {
+      background: white;
+      color: black;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
 
-        @keyframes subtleBackground {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* Navbar and Footer Styling */
-        nav, footer {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
-            backdrop-filter: blur(10px);
-        }
-
-        /* Fade-in animation */
-        .fade-in {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Card Hover Effects */
-        .card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Button Hover Effects */
-        .card a {
-            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-        }
-        .card a:hover {
-            transform: scale(1.05);
-        }
-    </style>
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col overflow-hidden text-white">
-    <!-- Animated Background -->
-    <div class="circle circle1"></div>
-    <div class="circle circle2"></div>
-    <div class="circle circle3"></div>
+<body class="min-h-screen flex flex-col text-black relative overflow-x-hidden">
+  <!-- Background Shapes -->
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle3"></div>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wide">Wedze Transport & Logistics Dashboard</h1>
-            <div class="flex items-center">
-                <span class="mr-4 font-medium">Welcome, <strong>{{ user.username }}</strong></span>
-                <a href="{% url 'logout' %}" class="bg-red-500 px-3 py-2 rounded-md shadow hover:bg-red-600 transition-all">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mx-auto pt-20 pb-8 px-4 flex-grow z-10">
-        <!-- Heading -->
-        <div class="text-center mb-10 fade-in">
-            <h2 class="text-4xl font-extrabold mb-4 text-white">Streamline Your Logistics</h2>
-            <p class="text-base text-gray-200 max-w-2xl mx-auto">
-                A seamless dashboard for managing records, tracking parcels, and optimizing transport operations.
-            </p>
-        </div>
-
-        <!-- Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Add Transport Record -->
-            <div class="bg-gradient-to-br from-blue-100 to-blue-50 shadow-lg rounded-lg p-6 card">
-                <h3 class="text-lg font-bold mb-2 text-blue-700">Add Transport Record</h3>
-                <p class="text-gray-600 mb-4">Easily add a new transport record to manage logistics.</p>
-                <a href="{% url 'create_transport' %}" class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700">Create Record</a>
-            </div>
-
-            <!-- View Transport Records -->
-            <div class="bg-gradient-to-br from-green-100 to-green-50 shadow-lg rounded-lg p-7 card">
-                <h3 class="text-lg font-bold mb-2 text-green-700">View Transport Records</h3>
-                <p class="text-gray-600 mb-4">Check and manage all your transport records.</p>
-                <a href="{% url 'list_transport' %}" class="bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700">View Records</a>
-            </div>
-
-            <!-- Add Parcel -->
-            <div class="bg-gradient-to-br from-purple-100 to-purple-50 shadow-lg rounded-lg p-6 card">
-                <h3 class="text-lg font-bold mb-2 text-purple-700">Add Parcel</h3>
-                <p class="text-gray-600 mb-4">Create a parcel record for smooth tracking.</p>
-                <a href="{% url 'create_parcel' %}" class="bg-purple-600 text-white px-4 py-2 rounded-md shadow hover:bg-purple-700">Create Parcel</a>
-            </div>
-
-            <!-- Track Parcel -->
-            <div class="bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-lg rounded-lg p-6 card">
-                <h3 class="text-lg font-bold mb-2 text-yellow-700">Track Parcel</h3>
-                <p class="text-gray-600 mb-4">Track your parcel's journey in real-time.</p>
-                <a href="{% url 'track_parcel' %}" class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow hover:bg-yellow-600">Track Parcel</a>
-            </div>
-
-            <!-- View All Parcels -->
-            <div class="bg-gradient-to-br from-indigo-100 to-indigo-50 shadow-lg rounded-lg p-6 card">
-                <h3 class="text-lg font-bold mb-2 text-indigo-700">View All Parcels</h3>
-                <p class="text-gray-600 mb-4">Manage all your parcels in one place.</p>
-                <a href="{% url 'list_parcels' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700">View Parcels</a>
-            </div>
-
-            <!-- Shipping Cost Calculator -->
-            <div class="bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-lg rounded-lg p-6 card">
-                <h3 class="text-lg font-bold mb-2 text-yellow-700">Shipping Cost Calculator</h3>
-                <p class="text-gray-600 mb-4">Calculate the shipping cost based on weight and distance.</p>
-                <a href="{% url 'calculate_shipping' %}" class="bg-yellow-500 text-white px-4 py-2 rounded-md shadow hover:bg-yellow-600">Calculate Cost</a>
-            </div>
-
-            <!-- Airline Transport (New Card) -->
-            <div class="bg-gradient-to-br from-green-100 to-green-50 shadow-lg rounded-lg p-7 card">
-                <h3 class="text-lg font-bold mb-2 text-green-700">Airline Transport</h3>
-                <p class="text-gray-600 mb-4">Search and import airline flights for air transport services.</p>
-                <a href="{% url 'search_flights' %}" class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600">
-                    Manage Flights
-                </a>            
-            </div>
-            <!--Bus Transport (New Card) -->
-            <div class="bg-gradient-to-br from-green-100 to-green-50 shadow-lg rounded-lg p-7 card">
-                <h3 class="text-lg font-bold mb-2 text-green-700">Manage Bus Transport</h3>
-                <p class="text-gray-600 mb-4">Search for bus routes and make bookings.</p>
-                <a href="{% url 'search_buses' %}" class="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600">
-                    Manage Buses
-                </a>            
-            </div>
-
-        </div>
+  <!-- Navbar -->
+  <nav class="bg-black bg-opacity-60 text-white py-4 px-6 fixed top-0 w-full z-50 shadow-md">
+    <div class="flex justify-between items-center max-w-7xl mx-auto">
+      <h1 class="text-xl font-bold">🚚 Eireann Transport</h1>
+      <div class="flex items-center gap-4">
+        <span class="text-sm">Hi, <strong>{{ user.username }}</strong></span>
+        <a href="{% url 'logout' %}" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">Logout</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer class="p-4 text-center text-white shadow-md">
-        <p>© {{ user.username }} | Wedze Transport & Logistics Management System</p>
-    </footer>
+  <!-- Main Section -->
+  <main class="pt-24 pb-10 px-6 flex-grow">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">Your Control Center</h2>
+
+      <!-- Grid Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-blue-600">📦 Add Transport Record</h3>
+          <p class="text-sm mb-4">Record new logistics details with ease.</p>
+          <a href="{% url 'create_transport' %}" class="text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700">Add</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-green-600">📋 View Records</h3>
+          <p class="text-sm mb-4">Access your full transport log.</p>
+          <a href="{% url 'list_transport' %}" class="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700">View</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-purple-600">📦 Add Parcel</h3>
+          <p class="text-sm mb-4">Input a new parcel for tracking.</p>
+          <a href="{% url 'create_parcel' %}" class="text-white bg-purple-600 px-4 py-2 rounded hover:bg-purple-700">Create</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-yellow-600">📍 Track Parcel</h3>
+          <p class="text-sm mb-4">Live tracking for all active parcels.</p>
+          <a href="{% url 'track_parcel' %}" class="text-white bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600">Track</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-indigo-600">📬 View All Parcels</h3>
+          <p class="text-sm mb-4">See a list of all parcel entries.</p>
+          <a href="{% url 'list_parcels' %}" class="text-white bg-indigo-600 px-4 py-2 rounded hover:bg-indigo-700">Browse</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-yellow-600">💰 Shipping Cost</h3>
+          <p class="text-sm mb-4">Estimate your shipping charges easily.</p>
+          <a href="{% url 'calculate_shipping' %}" class="text-white bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600">Calculate</a>
+        </div>
+
+        <div class="card">
+          <h3 class="text-lg font-bold mb-2 text-red-600">✈️ Airline Transport</h3>
+          <p class="text-sm mb-4">Search & manage flights for air cargo.</p>
+          <a href="{% url 'search_flights' %}" class="text-white bg-red-500 px-4 py-2 rounded hover:bg-red-600">Manage Flights</a>
+        </div>
+
+        <div class="card">
+            <h3 class="text-lg font-bold mb-2 text-yellow-600">🚌 Bus Transport</h3>
+            <p class="text-sm mb-4">Book and manage bus logistics.</p>
+            <a href="{% url 'search_buses' %}" class="text-white bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600">Manage Buses</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-70 text-white text-center py-4 text-sm shadow-lg">
+    © {{ user.username }} | Eireann Transport & Logistics Platform
+  </footer>
 </body>
 </html>

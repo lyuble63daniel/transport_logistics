@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Public Track Parcel</title>
-    {% load static %}
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+  <title>Public Track Parcel</title>
+  {% load static %}
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-blue-50 min-h-screen flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white p-6 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wide">Public Parcel Tracking</h1>
-            <a href="{% url 'user_home' %}" class="bg-gray-500 px-4 py-2 rounded-full shadow-md hover:bg-gray-600 transition-all">Home</a>
-        </div>
-    </nav>
+<body class="bg-gradient-to-br from-white to-gray-100 text-black min-h-screen flex flex-col">
 
-    <!-- Main Content -->
-    <div class="container mx-auto p-8 flex-grow">
-        <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto animate-fade-in">
-            <h2 class="text-3xl font-bold mb-6 text-center text-blue-600">Track Your Parcel</h2>
-
-            <!-- Display Messages -->
-            {% if messages %}
-            <div class="mb-6">
-                {% for message in messages %}
-                <p class="bg-red-100 text-red-800 p-3 rounded-lg shadow">{{ message }}</p>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Form -->
-            <form method="GET" class="space-y-6">
-                <div>
-                    <label for="tracking_id" class="block text-lg font-medium text-gray-700">Tracking ID</label>
-                    <input id="tracking_id" 
-                           class="block w-full px-4 py-3 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300" 
-                           type="text" name="tracking_id" placeholder="Enter Tracking ID" required>
-                </div>
-                <div class="text-center">
-                    <button class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
-                        Track Parcel
-                    </button>
-                </div>
-            </form>
-
-            <!-- Display Parcel Details -->
-            {% if parcel %}
-            <div class="mt-10 bg-green-50 p-6 rounded-lg shadow-lg">
-                <h3 class="text-xl font-bold text-green-700 mb-4">Parcel Details:</h3>
-                <p><strong>Tracking ID:</strong> {{ parcel.tracking_id }}</p>
-                <p><strong>Sender:</strong> {{ parcel.sender_name }}</p>
-                <p><strong>Receiver:</strong> {{ parcel.receiver_name }}</p>
-                <p><strong>Origin:</strong> {{ parcel.origin }}</p>
-                <p><strong>Destination:</strong> {{ parcel.destination }}</p>
-                <p><strong>Status:</strong> {{ parcel.status }}</p>
-                <p><strong>Weight:</strong> {{ parcel.weight }} kg</p>
-
-                <!-- Vehicle Information -->
-                {% if parcel.transport_record %}
-                <div class="mt-6 bg-blue-50 p-4 rounded-lg">
-                    <h4 class="text-lg font-bold text-blue-700">Assigned Vehicle:</h4>
-                    <p><strong>Vehicle ID:</strong> {{ parcel.transport_record.vehicle_id }}</p>
-                    <p><strong>Destination:</strong> {{ parcel.transport_record.destination }}</p>
-                    <p><strong>Driver Name:</strong> {{ parcel.transport_record.driver_name }}</p>
-                    <p><strong>Departure Date:</strong> {{ parcel.transport_record.departure_date }}</p>
-                    <p><strong>Arrival Date:</strong> {{ parcel.transport_record.arrival_date }}</p>
-                </div>
-                {% else %}
-                <p class="text-red-500 mt-4">No vehicle assigned to this parcel.</p>
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
+  <!-- ✅ Navbar -->
+  <nav class="bg-white shadow-md p-4 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-wide">📦 Public Parcel Tracking</h1>
+      <a href="{% url 'user_home' %}" class="bg-gray-700 hover:bg-gray-900 text-black px-4 py-2 rounded-full shadow transition-all text-sm">
+        ← Back to Home
+      </a>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white text-center py-4 shadow-lg mt-auto">
-        <p>© Wedze Transport & Logistics Management System</p>
-    </footer>
+  <!-- ✅ Main Content -->
+  <main class="container mx-auto px-4 pt-16 pb-10 flex-grow animate-fade-in">
+    <div class="bg-white p-10 rounded-xl shadow-lg max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">Track Your Parcel</h2>
+
+      {% if messages %}
+        <div class="mb-6">
+          {% for message in messages %}
+          <p class="bg-red-100 text-red-800 p-3 rounded-md shadow text-sm">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="GET" class="space-y-6">
+        <div>
+          <label for="tracking_id" class="block text-base font-medium mb-1">Tracking ID</label>
+          <input id="tracking_id" 
+                 type="text" 
+                 name="tracking_id" 
+                 required
+                 class="w-full px-4 py-3 bg-gray-100 text-gray-800 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white transition-all" 
+                 placeholder="Enter your Tracking ID">
+        </div>
+        <div class="text-center">
+          <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg transition-all">
+            🔍 Track Parcel
+          </button>
+        </div>
+      </form>
+
+      {% if parcel %}
+      <div class="mt-10 bg-green-50 p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-bold text-green-700 mb-4">📋 Parcel Details:</h3>
+        <p><strong>Tracking ID:</strong> {{ parcel.tracking_id }}</p>
+        <p><strong>Sender:</strong> {{ parcel.sender_name }}</p>
+        <p><strong>Receiver:</strong> {{ parcel.receiver_name }}</p>
+        <p><strong>Origin:</strong> {{ parcel.origin }}</p>
+        <p><strong>Destination:</strong> {{ parcel.destination }}</p>
+        <p><strong>Status:</strong> {{ parcel.status }}</p>
+        <p><strong>Weight:</strong> {{ parcel.weight }} kg</p>
+
+        {% if parcel.transport_record %}
+        <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+          <h4 class="text-lg font-bold text-blue-700 mb-2">🚚 Assigned Vehicle</h4>
+          <p><strong>Vehicle ID:</strong> {{ parcel.transport_record.vehicle_id }}</p>
+          <p><strong>Driver Name:</strong> {{ parcel.transport_record.driver_name }}</p>
+          <p><strong>Departure Date:</strong> {{ parcel.transport_record.departure_date }}</p>
+          <p><strong>Arrival Date:</strong> {{ parcel.transport_record.arrival_date }}</p>
+          <p><strong>Destination:</strong> {{ parcel.transport_record.destination }}</p>
+        </div>
+        {% else %}
+        <p class="text-red-600 mt-4">No vehicle assigned to this parcel.</p>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer class="bg-white border-t shadow-inner text-center text-sm text-gray-600 py-4 mt-auto">
+    © 2025 Eireann Transport & Logistics
+  </footer>
 </body>
 </html>

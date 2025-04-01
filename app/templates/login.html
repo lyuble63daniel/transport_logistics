@@ -1,154 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
-    {% load static %}
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
-    <style>
-        /* Animation for moving circles */
-        @keyframes move {
-            0% {
-                transform: translateY(0) translateX(0) scale(1);
-            }
-            50% {
-                transform: translateY(30px) translateX(20px) scale(1.1);
-            }
-            100% {
-                transform: translateY(0) translateX(0) scale(1);
-            }
-        }
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: move 6s infinite ease-in-out;
-        }
-        .circle1 {
-            width: 150px;
-            height: 150px;
-            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        .circle2 {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #34d399, #065f46);
-            bottom: 15%;
-            right: 20%;
-            animation-delay: 2s;
-        }
-        .circle3 {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(135deg, #fbbf24, #b45309);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: 4s;
-        }
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Eireann</title>
+  <link href="{% static 'css/output.css' %}" rel="stylesheet">
 
-        /* Navbar and Footer Styling */
-        nav, footer {
-            background: linear-gradient(to right, #1e3a8a, #2563eb);
-            color: white;
-        }
+  <style>
+    /* Background Blur Utility */
+    .bg-blur {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+    }
 
-        /* Password Toggle Icon */
-        .password-toggle {
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #9ca3af;
-        }
-        .password-toggle:hover {
-            color: #2563eb;
-        }
-    </style>
-    <script>
-        // Toggle Password Visibility
-        function togglePassword() {
-            const passwordInput = document.getElementById("password");
-            const toggleIcon = document.getElementById("password-toggle-icon");
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                toggleIcon.textContent = "🙈";
-            } else {
-                passwordInput.type = "password";
-                toggleIcon.textContent = "👁️";
-            }
-        }
-    </script>
+    /* Footer Border */
+    footer {
+      border: 2px solid rgba(245, 214, 214, 0.2);
+    }
+
+    /* Circles Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(20px) scale(1.05); }
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 9999px;
+      opacity: 0.25;
+      animation: float 6s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .circle1 {
+      width: 160px;
+      height: 160px;
+      background: linear-gradient(135deg, #818cf8, #6366f1);
+      top: 15%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .circle2 {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #f472b6, #db2777);
+      bottom: 10%;
+      right: 12%;
+      animation-delay: 2s;
+    }
+
+    .circle3 {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #34d399, #059669);
+      top: 50%;
+      left: 55%;
+      transform: translate(-50%, -50%);
+      animation-delay: 4s;
+    }
+  </style>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById("password");
+      const icon = document.getElementById("password-toggle-icon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.textContent = "🙈";
+      } else {
+        input.type = "password";
+        icon.textContent = "👁️";
+      }
+    }
+  </script>
 </head>
-<body class="bg-gradient-to-br from-gray-100 to-blue-200 min-h-screen flex flex-col overflow-hidden">
-    <!-- Animated Background -->
-    <div class="circle circle1"></div>
-    <div class="circle circle2"></div>
-    <div class="circle circle3"></div>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wide">Wedze Transport & Logistics</h1>
-            <div class="flex space-x-4">
-                <a href="/" class="px-4 py-2 bg-transparent rounded-lg shadow-md hover:bg-white hover:bg-opacity-10">Home</a>
-                <a href="{% url 'signup' %}" class="px-4 py-2 bg-transparent rounded-lg shadow-md hover:bg-white hover:bg-opacity-10">Sign Up</a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-gradient-to-br from-indigo-900 to-purple-700 min-h-screen text-black flex flex-col relative overflow-hidden">
 
-    <!-- Login Card -->
-    <div class="flex-grow flex justify-center items-center z-10 pt-20">
-        <div class="relative w-full max-w-sm mx-auto bg-white rounded-lg shadow-lg overflow-hidden animate-fade-in">
-            <!-- Company Header -->
-            <div class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white text-center py-6">
-                <h1 class="text-2xl font-bold tracking-wide">Wedze Transport & Logistics</h1>
-                <!-- <h2 class="text-3xl font-bold mt-2">Welcome Back</h2> -->
-                <p class="text-sm mt-2">Please log in to your account</p>
-            </div>
-            <div class="p-6">
-                <!-- Login Form -->
-                <form method="POST" class="space-y-6">
-                    {% csrf_token %}
-                    <div class="relative">
-                        <input id="username" 
-                               class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
-                               type="text" name="username" placeholder=" " required>
-                        <label for="username" 
-                               class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
-                            Username
-                        </label>
-                    </div>
-                    <div class="relative">
-                        <input id="password" 
-                               class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white peer transition duration-300" 
-                               type="password" name="password" placeholder=" " required>
-                        <span id="password-toggle-icon" class="password-toggle" onclick="togglePassword()">👁️</span>
-                        <label for="password" 
-                               class="absolute text-gray-500 top-2 left-4 text-sm transform -translate-y-3 scale-90 bg-white px-1 peer-placeholder-shown:translate-y-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-gray-400 transition duration-300">
-                            Password
-                        </label>
-                    </div>
-                    <button class="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300" 
-                            type="submit">
-                        Login
-                    </button>
-                </form>
-                <!-- Signup Link -->
-                <p class="text-sm text-center mt-6">
-                    Don't have an account? 
-                    <a href="{% url 'signup' %}" class="text-blue-500 hover:text-blue-600 transition-all">Sign Up</a>
-                </p>
-            </div>
-        </div>
+  <!-- ✅ Animated Background Circles -->
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+  <div class="circle circle3"></div>
+
+  <!-- ✅ Navbar -->
+  <nav class="bg-blur fixed w-full top-0 z-50 shadow-lg text-black px-6 py-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold tracking-wide">🚚 Eireann Transport</h1>
+      <div class="space-x-4">
+        <a href="/" class="hover:underline">Home</a>
+        <a href="{% url 'signup' %}" class="hover:underline">Sign Up</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer class="w-full text-center py-4 shadow-md">
-        <p>© Wedze Transport & Logistics Management System</p>
-    </footer>
+  <!-- ✅ Login Form Section -->
+  <main class="flex-grow flex items-center justify-center pt-24 z-10">
+    <div class="bg-cyan-300 text-black w-full max-w-sm rounded-xl shadow-2xl p-8 mx-4">
+      <h2 class="text-2xl font-bold text-center text-indigo-800">Welcome Back</h2>
+      <p class="text-sm text-center text-gray-600 mb-6">Login to continue managing transports</p>
+
+      <form method="POST" class="space-y-5">
+        {% csrf_token %}
+        <div>
+          <label for="username" class="text-sm font-medium">Username</label>
+          <input type="text" name="username" id="username"
+            class="w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            required>
+        </div>
+
+        <div class="relative">
+          <label for="password" class="text-sm font-medium">Password</label>
+          <input type="password" name="password" id="password"
+            class="w-full px-4 py-2 mt-1 border rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            required>
+          <span id="password-toggle-icon" class="absolute right-3 top-9 cursor-pointer text-gray-400"
+            onclick="togglePassword()">👁️</span>
+        </div>
+
+        <button type="submit"
+          class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-all">
+          Login
+        </button>
+      </form>
+
+      <p class="text-center text-sm text-gray-600 mt-6">
+        Don’t have an account?
+        <a href="{% url 'signup' %}" class="text-indigo-600 hover:text-indigo-800 font-medium">Sign up</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- ✅ Footer with Border -->
+  <footer class="bg-blur bg-black text-black text-center py-4 text-sm border-t border-indigo-400 z-10">
+    © 2025 Eireann Transport & Logistics. All rights reserved.
+  </footer>
+
 </body>
 </html>
