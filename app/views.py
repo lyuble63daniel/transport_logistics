@@ -399,7 +399,7 @@ def create_parcel(request):
         if file_url:
             messages.success(request, f"Parcel created successfully! Document available: {file_url}")
         else:
-            messages.error(request, "Parcel created, but document upload failed.")
+            messages.error(request, "Parcel created successfully.")
             
         # Prepare notification details
         message = f"""
@@ -434,37 +434,37 @@ To track the parcel, go to the following URL: {tracking_url}
 ##################################################################
 """
 
-        # Publish the notification to SNS
-        sns_client = boto3.client(
-            'sns',
-            region_name=settings.AWS_REGION,
-            # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            # aws_session_token=settings.AWS_SESSION_TOKEN
-        )
-        topic_arn = settings.AWS_SNS_TOPIC_ARN
+        # # Publish the notification to SNS
+        # sns_client = boto3.client(
+        #     'sns',
+        #     region_name=settings.AWS_REGION,
+        #     # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        #     # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        #     # aws_session_token=settings.AWS_SESSION_TOKEN
+        # )
+        # topic_arn = settings.AWS_SNS_TOPIC_ARN
 
-        try:
-            # Subscribe sender and receiver (if not already subscribed)
-            for email in [parcel.sender_email, parcel.receiver_email]:
-                sns_client.subscribe(
-                    TopicArn=topic_arn,
-                    Protocol='email',
-                    Endpoint=email
-                )
+        # try:
+        #     # Subscribe sender and receiver (if not already subscribed)
+        #     for email in [parcel.sender_email, parcel.receiver_email]:
+        #         sns_client.subscribe(
+        #             TopicArn=topic_arn,
+        #             Protocol='email',
+        #             Endpoint=email
+        #         )
 
-            # Publish the message
-            sns_client.publish(
-                TopicArn=topic_arn,
-                Message=message,
-                Subject="Parcel Created: Details Inside"
-            )
-            messages.success(request, "Parcel created and notifications sent successfully!")
-        except Exception as e:
-            messages.error(request, f"Error sending notifications: {str(e)}")
-            return redirect('create_parcel')
+        #     # Publish the message
+        #     sns_client.publish(
+        #         TopicArn=topic_arn,
+        #         Message=message,
+        #         Subject="Parcel Created: Details Inside"
+        #     )
+        #     messages.success(request, "Parcel created and notifications sent successfully!")
+        # except Exception as e:
+        #     messages.error(request, f"Error sending notifications: {str(e)}")
+        #     return redirect('create_parcel')
 
-        return redirect('list_parcels')
+        # return redirect('list_parcels')
 
     # Get transport records for dropdown
     transport_records = TransportRecord.objects.filter(user=request.user)
@@ -578,27 +578,27 @@ def update_parcel(request, tracking_id):
         ##################################################################
         """
 
-        # Publish the notification to SNS
-        sns_client = boto3.client(
-            'sns',
-            region_name=settings.AWS_REGION,
-            # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            # aws_session_token=settings.AWS_SESSION_TOKEN
-        )
-        topic_arn = settings.AWS_SNS_TOPIC_ARN
+        # # Publish the notification to SNS
+        # sns_client = boto3.client(
+        #     'sns',
+        #     region_name=settings.AWS_REGION,
+        #     # aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        #     # aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        #     # aws_session_token=settings.AWS_SESSION_TOKEN
+        # )
+        # topic_arn = settings.AWS_SNS_TOPIC_ARN
 
-        try:
-            # Publish the message
-            sns_client.publish(
-                TopicArn=topic_arn,
-                Message=message,
-                Subject="Parcel Status Update:"
-            )
-            messages.success(request, "Parcel Status Update and notifications sent successfully!")
-        except Exception as e:
-            messages.error(request, f"Error sending notifications: {str(e)}")
-            return redirect('list_parcels')
+        # try:
+        #     # Publish the message
+        #     sns_client.publish(
+        #         TopicArn=topic_arn,
+        #         Message=message,
+        #         Subject="Parcel Status Update:"
+        #     )
+        #     messages.success(request, "Parcel Status Update and notifications sent successfully!")
+        # except Exception as e:
+        #     messages.error(request, f"Error sending notifications: {str(e)}")
+        #     return redirect('list_parcels')
         return redirect('list_parcels')
         
 
