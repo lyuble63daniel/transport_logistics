@@ -1,0 +1,1 @@
+nohup gunicorn --bind 0.0.0.0:8000 transport_logistics.wsgi:application --workers 3 > gunicorn.log 2>&1 &
