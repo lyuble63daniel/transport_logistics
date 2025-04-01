@@ -123,6 +123,7 @@ WSGI_APPLICATION = 'transport_logistics.wsgi.application'
 #     }
 # }
 
+BUS_MICROSERVICE_BASE_URL = "https://m97ksfo27c.execute-api.eu-west-1.amazonaws.com/lyuble"
 
 
 

@@ -7,13 +7,14 @@
   <title>Search Bus Routes</title>
   <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen text-white flex flex-col">
+<body class=" from-slate-900 to-slate-800 min-h-screen text-black flex flex-col">
 
 <!-- ✅ Navbar -->
 <nav class="w-full bg-black bg-opacity-30 backdrop-blur-lg shadow-md p-4 fixed top-0 z-50">
   <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-xl font-bold">🚌 Wedze Bus Booking</h1>
-    <a href="{% url 'dashboard' %}" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">← Back to Dashboard</a>
+    <h1 class="text-xl text-white font-bold">🚌 Wedze Bus Booking</h1>
+    <a href="{% url 'dashboard' %}" class="bg-blue-600 text-white   hover:bg-blue-700 px-4 py-2 rounded text-sm">← Back to Dashboard</a>
+    <a href="{% url 'register_bus_route' %}" class="bg-blue-600 text-white   hover:bg-blue-700 px-4 py-2 rounded text-sm">Register Bus</a>
   </div>
 </nav>
 
@@ -30,9 +31,9 @@
       <input type="text" name="from" placeholder="From City" required
              class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
       <input type="text" name="to" placeholder="To City" required
-             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black focus:outline-none focus:ring focus:ring-blue-400">
+             class="w-full md:w-1/4 px-4 py-2 rounded shadow text-black  focus:outline-none focus:ring focus:ring-blue-400">
       <button type="submit"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow transition-all">
+              class="bg-blue-600 hover:bg-blue-700 my-9 text-white px-6 py-2 rounded shadow transition-all">
         🔍 Search
       </button>
     </form>
